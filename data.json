@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. Richard James",
+    "image": "https://mighty.tools/mockmind-api/content/human/65.jpg",
+    "speciality": {
+      "icon": "faHeartPulse",
+      "title": "Cardiology"
+    },
+    "degree": "MBBS",
+    "experience": "4 Years",
+    "about": "Dr. James is dedicated to providing high-quality healthcare with a focus on preventative care and early diagnosis.",
+    "available": true,
+    "fees": 50,
+    "address": {
+      "line1": "24 Main Street",
+      "line2": "10 Clause Road"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Dr. Sarah White",
+    "image": "https://mighty.tools/mockmind-api/content/human/44.jpg",
+    "speciality": {
+      "icon": "faUserMd",
+      "title": "Urology"
+    },
+    "degree": "MD, Cardiology",
+    "experience": "8 Years",
+    "about": "Dr. White specializes in cardiovascular health and is committed to patient education and prevention.",
+    "available": true,
+    "fees": 75,
+    "address": {
+      "line1": "100 Health Blvd",
+      "line2": "Suite 20"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Dr. Emma Brown",
+    "image": "https://mighty.tools/mockmind-api/content/human/57.jpg",
+    "speciality": {
+      "icon": "faTooth",
+      "title": "Dental Care"
+    },
+    "degree": "MD, Dermatology",
+    "experience": "6 Years",
+    "about": "Dr. Brown is an expert in skin care, specializing in treatments for common and complex skin issues.",
+    "available": false,
+    "fees": 60,
+    "address": {
+      "line1": "50 Maple Ave",
+      "line2": "2nd Floor"
+    }
+  },
+  {
+    "id": 4,
+    "name": "Dr. John Smith",
+    "image": "https://mighty.tools/mockmind-api/content/human/5.jpg",
+    "speciality": {
+      "icon": "faBrain",
+      "title": "Neurology"
+    },
+    "degree": "MBBS, MS (Ortho)",
+    "experience": "10 Years",
+    "about": "Dr. Smith has extensive experience in treating musculoskeletal issues and focuses on minimally invasive techniques.",
+    "available": true,
+    "fees": 100,
+    "address": {
+      "line1": "1 Recovery Rd",
+      "line2": "Room 305"
+    }
+  },
+  {
+    "id": 5,
+    "name": "Dr. Alice Grey",
+    "image": "https://mighty.tools/mockmind-api/content/human/7.jpg",
+    "speciality": {
+      "icon": "faEye",
+      "title": "Eye Care"
+    },
+    "degree": "MBBS, MD (Pediatrics)",
+    "experience": "7 Years",
+    "about": "Dr. Grey is passionate about children's health, providing preventive care and treatment for young patients.",
+    "available": true,
+    "fees": 55,
+    "address": {
+      "line1": "76 Kids Care Lane",
+      "line2": ""
+    }
+  },
+  {
+    "id": 6,
+    "name": "Dr. Kevin Lee",
+    "image": "https://mighty.tools/mockmind-api/content/human/68.jpg",
+    "speciality": {
+      "icon": "faHeartPulse",
+      "title": "Cardiology"
+    },
+    "degree": "MD, Neurology",
+    "experience": "12 Years",
+    "about": "Dr. Lee specializes in neurological disorders and is dedicated to comprehensive patient care.",
+    "available": true,
+    "fees": 120,
+    "address": {
+      "line1": "123 Neuro Street",
+      "line2": "Suite 45"
+    }
+  },
+  {
+    "id": 7,
+    "name": "Dr. Lisa Ray",
+    "image": "https://mighty.tools/mockmind-api/content/human/60.jpg",
+    "speciality": {
+      "icon": "faEye",
+      "title": "Eye Care"
+    },
+    "degree": "MBBS, MD (Ophthalmology)",
+    "experience": "9 Years",
+    "about": "Dr. Ray provides expert care in eye health, focusing on both treatment and preventive measures.",
+    "available": false,
+    "fees": 70,
+    "address": {
+      "line1": "88 Vision Road",
+      "line2": "Office 101"
+    }
+  },
+  {
+    "id": 8,
+    "name": "Dr. Mark Liu",
+    "image": "https://mighty.tools/mockmind-api/content/human/49.jpg",
+    "speciality": {
+      "icon": "faUserMd",
+      "title": "Urology"
+    },
+    "degree": "MD, Endocrinology",
+    "experience": "5 Years",
+    "about": "Dr. Liu treats hormonal imbalances and is committed to helping patients achieve a balanced life.",
+    "available": true,
+    "fees": 80,
+    "address": {
+      "line1": "3 Wellness Ave",
+      "line2": "Building B"
+    }
+  },
+  {
+    "id": 9,
+    "name": "Dr. Nora Williams",
+    "image": "https://mighty.tools/mockmind-api/content/human/43.jpg",
+    "speciality": {
+      "icon": "faBrain",
+      "title": "Neurology"
+    },
+    "degree": "MBBS, MD (Gynecology)",
+    "experience": "11 Years",
+    "about": "Dr. Williams is dedicated to women's health, providing a range of treatments and preventive care.",
+    "available": true,
+    "fees": 90,
+    "address": {
+      "line1": "200 Women's Health Road",
+      "line2": "Floor 3"
+    }
+  },
+  {
+    "id": 10,
+    "name": "Dr. Robert King",
+    "image": "https://mighty.tools/mockmind-api/content/human/41.jpg",
+    "speciality": {
+      "icon": "faSyringe",
+      "title": "Plastic Surgery"
+    },
+    "degree": "MD, Oncology",
+    "experience": "15 Years",
+    "about": "Dr. King specializes in cancer treatment, offering personalized care and comprehensive support.",
+    "available": false,
+    "fees": 150,
+    "address": {
+      "line1": "500 Hope Blvd",
+      "line2": "Room 21A"
+    }
+  }
+]
