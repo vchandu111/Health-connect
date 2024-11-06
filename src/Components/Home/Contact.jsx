@@ -56,7 +56,7 @@ const ContactUs = () => {
 
   return (
     <>
-      <div className="text-center mt-24">
+      <div className="text-center mt-24 px-4">
         <h2 className="text-3xl font-bold text-gray-800 mb-4 mt-10">
           Get in Touch
         </h2>

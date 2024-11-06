@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import Loader from "./Common/Loader";
 
 const News = () => {
   const [news, setNews] = useState([]);
@@ -34,9 +35,7 @@ const News = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p>Loading news...</p>
-      </div>
+      <Loader/>
     );
   }
 

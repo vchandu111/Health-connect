@@ -1,12 +1,52 @@
 import React from "react";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStethoscope } from "@fortawesome/free-solid-svg-icons";
 const Footer = () => {
+  const companyLinks = [
+    { name: "About Us", href: "/about" },
+    { name: "Departments", href: "/specializations" },
+    { name: "Find a Doctor", href: "/doctors" },
+    { name: "News", href: "/news" },
+  ];
+
+  const quickLinks = [
+    { name: "Health Checkups", href: "#" },
+    { name: "Vaccinations", href: "#" },
+    { name: "Emergency Services", href: "/doctors" },
+    { name: "Mental Health", href: "#" },
+    { name: "Nutrition & Diet", href: "#" },
+  ];
+
+  const contactInfo = [
+    {
+      icon: "fas fa-map-marker-alt",
+      color: "text-red-500",
+      text: "1234 Health Street, Sector 42, Gurgaon, Haryana, India",
+    },
+    {
+      icon: "fas fa-phone",
+      color: "text-red-500",
+      text: "+91-98765-43210",
+    },
+    {
+      icon: "fas fa-envelope",
+      color: "text-red-500",
+      text: "support@healthconnect.in",
+    },
+  ];
+
   return (
     <footer className="bg-gray-900 text-gray-300 py-12 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Brand and Newsletter */}
         <div>
-          <h1 className="text-2xl font-bold text-white mb-6">Health Connect</h1>
+          <h1 className="text-2xl font-bold text-white mb-6 flex items-center">
+            <FontAwesomeIcon
+              icon={faStethoscope}
+              className="mr-2 text-red-500"
+            />
+            Health Connect
+          </h1>{" "}
           <div className="flex mb-6">
             <input
               type="email"
@@ -37,63 +77,27 @@ const Footer = () => {
         <div>
           <h2 className="text-lg font-semibold text-white mb-4">Company</h2>
           <ul className="space-y-2 text-gray-400">
-            <li>
-              <a href="#" className="hover:text-white">
-                About Us
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white">
-                Departments
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white">
-                Find a Doctor
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white">
-                FAQ
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white">
-                News
-              </a>
-            </li>
+            {companyLinks.map((link) => (
+              <li key={link.name}>
+                <a href={link.href} className="hover:text-white">
+                  {link.name}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 
         {/* Quick Links */}
         <div>
-          <h2 className="text-lg font-semibold text-white mb-4">Quick links</h2>
+          <h2 className="text-lg font-semibold text-white mb-4">Quick Links</h2>
           <ul className="space-y-2 text-gray-400">
-            <li>
-              <a href="#" className="hover:text-white">
-                Facial Fillers
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white">
-                Breast Surgery
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white">
-                Body Lifts
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white">
-                Face & Neck
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white">
-                Fat Reduction
-              </a>
-            </li>
+            {quickLinks.map((link) => (
+              <li key={link.name}>
+                <a href={link.href} className="hover:text-white">
+                  {link.name}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -101,18 +105,12 @@ const Footer = () => {
         <div>
           <h2 className="text-lg font-semibold text-white mb-4">Contact Us</h2>
           <ul className="space-y-4 text-gray-400">
-            <li className="flex items-center">
-              <i className="fas fa-map-marker-alt mr-2 text-red-500"></i>
-              <span>Los Angeles Gournadi, 1230 Bariasl</span>
-            </li>
-            <li className="flex items-center">
-              <i className="fas fa-phone mr-2 text-red-500"></i>
-              <span>1-677-124-44227</span>
-            </li>
-            <li className="flex items-center">
-              <i className="fas fa-envelope mr-2 text-red-500"></i>
-              <span>Support@gmail.com</span>
-            </li>
+            {contactInfo.map((info, index) => (
+              <li key={index} className="flex items-center">
+                <i className={`${info.icon} mr-2 text-red-500`}></i>
+                <span>{info.text}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

@@ -56,7 +56,7 @@ const Department = () => {
       </p>
 
       {/* Departments Grid */}
-      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+      <div className="container mx-auto grid grid-cols-1 w-3/4 md:w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
         {departments.map((department, index) => (
           <div
             key={index}

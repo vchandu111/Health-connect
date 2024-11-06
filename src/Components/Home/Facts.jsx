@@ -14,7 +14,7 @@ const Facts = () => {
       <div className="relative z-10 container mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* Left Section - Main Text */}
         <div className="text-center md:text-left space-y-4">
-          <h4 className="uppercase text-sm text-white opacity-80">Fun Facts</h4>
+          <h4 className="uppercase text-sm text-white opacity-80"> Facts</h4>
           <h2 className="text-4xl md:text-5xl font-bold">
             Over 5,100 patients trust us
           </h2>

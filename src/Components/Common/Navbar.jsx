@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-
+import { faStethoscope } from "@fortawesome/free-solid-svg-icons";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -23,17 +23,47 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 w-full z-50 bg-white shadow-md flex items-center justify-between py-4 px-6 border-b border-gray-200">
       <div className="text-2xl font-bold tracking-wide text-black">
-        <a href="/">Health Connect 🩺</a>
+        <a href="/">
+          <FontAwesomeIcon icon={faStethoscope} className="mr-2 text-red-500" />
+          Health Connect
+        </a>
       </div>
 
       {/* Desktop Links */}
       <div className="hidden md:flex space-x-4 lg:space-x-8">
-        <a href="/" className="text-gray-800 font-medium">HOME</a>
-        <a href="/about" className="text-gray-800 font-medium hover:text-red-500">ABOUT</a>
-        <a href="/specializations" className="text-gray-800 font-medium hover:text-red-500">Departments</a>
-        <a href="/doctors" className="text-gray-800 font-medium hover:text-red-500">Doctors</a>
-        <a href="/news" className="text-gray-800 font-medium hover:text-red-500">NEWS</a>
-        <a href="/contact" className="text-gray-800 font-medium hover:text-red-500">CONTACT</a>
+        <a href="/" className="text-gray-800 font-medium">
+          HOME
+        </a>
+        <a
+          href="/about"
+          className="text-gray-800 font-medium hover:text-red-500"
+        >
+          ABOUT
+        </a>
+        <a
+          href="/specializations"
+          className="text-gray-800 font-medium hover:text-red-500"
+        >
+          Departments
+        </a>
+        <a
+          href="/doctors"
+          className="text-gray-800 font-medium hover:text-red-500"
+        >
+          Doctors
+        </a>
+        <a
+          href="/news"
+          className="text-gray-800 font-medium hover:text-red-500"
+        >
+          NEWS
+        </a>
+        <a
+          href="/contact"
+          className="text-gray-800 font-medium hover:text-red-500"
+        >
+          CONTACT
+        </a>
       </div>
 
       {/* User Profile Dropdown for Desktop */}
@@ -44,12 +74,24 @@ const Navbar = () => {
             onClick={() => setUserMenuOpen(!userMenuOpen)}
           >
             <FontAwesomeIcon icon={faUser} className="text-2xl text-red-600" />
-            <span className="font-medium uppercase">{userName.split("@")[0]}</span>
+            <span className="font-medium uppercase">
+              {userName.split("@")[0]}
+            </span>
           </button>
           {userMenuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
-              <a href="/appointments" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">My Appointments</a>
-              <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-red-600">Logout</button>
+              <a
+                href="/appointments"
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+              >
+                My Appointments
+              </a>
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-4 py-2 text-red-600"
+              >
+                Logout
+              </button>
             </div>
           )}
         </div>
@@ -71,7 +113,12 @@ const Navbar = () => {
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          ></path>
         </svg>
       </button>
 
@@ -81,19 +128,64 @@ const Navbar = () => {
           isOpen ? "block" : "hidden"
         } absolute top-full left-0 right-0 bg-white shadow-lg md:hidden transition duration-300 ease-in-out`}
       >
-        <a href="/" className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100">HOME</a>
-        <a href="/about" className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100">ABOUT</a>
-        <a href="/specializations" className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100">Departments</a>
-        <a href="/doctors" className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100">Doctors</a>
-        <a href="/news" className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100">NEWS</a>
-        <a href="/contact" className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100">CONTACT</a>
+        <a
+          href="/"
+          className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100"
+        >
+          HOME
+        </a>
+        <a
+          href="/about"
+          className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100"
+        >
+          ABOUT
+        </a>
+        <a
+          href="/specializations"
+          className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100"
+        >
+          Departments
+        </a>
+        <a
+          href="/doctors"
+          className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100"
+        >
+          Doctors
+        </a>
+        <a
+          href="/news"
+          className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100"
+        >
+          NEWS
+        </a>
+        <a
+          href="/contact"
+          className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100"
+        >
+          CONTACT
+        </a>
         {userName ? (
           <>
-            <a href="/appointments" className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100">My Appointments</a>
-            <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-red-600 font-medium">Logout</button>
+            <a
+              href="/appointments"
+              className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100"
+            >
+              My Appointments
+            </a>
+            <button
+              onClick={handleLogout}
+              className="w-full text-left px-4 py-2 text-red-600 font-medium"
+            >
+              Logout
+            </button>
           </>
         ) : (
-          <a href="/signup" className="block px-4 py-2 border-t border-gray-200 text-red-500 font-medium hover:bg-red-50 hover:text-red-600 transition duration-300">Signup</a>
+          <a
+            href="/signup"
+            className="block px-4 py-2 border-t border-gray-200 text-red-500 font-medium hover:bg-red-50 hover:text-red-600 transition duration-300"
+          >
+            Signup
+          </a>
         )}
       </div>
     </nav>
