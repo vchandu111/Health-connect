@@ -94,7 +94,7 @@ const DoctorsPage = () => {
         <Loader visible={loading} />
       ) : (
         <>
-          <h4 className="text-3xl  font-bold text-gray-800 mb-8">
+          <h4 className="md:text-3xl text-2xl  font-bold text-gray-800 mb-8">
             {getHeadingText()}
           </h4>
 
