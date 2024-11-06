@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faStethoscope } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -80,19 +82,21 @@ const Navbar = () => {
           </button>
           {userMenuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
-              <a
-                href="/appointments"
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-              >
-                My Appointments
-              </a>
-              <button
-                onClick={handleLogout}
-                className="w-full text-left px-4 py-2 text-red-600"
-              >
-                Logout
-              </button>
-            </div>
+      <a
+        href="/appointments"
+        className="block px-4 py-2 text-gray-800 hover:bg-gray-100 flex items-center"
+      >
+        <FontAwesomeIcon icon={faCalendarAlt} className="mr-2 text-red-500" />
+        My Appointments
+      </a>
+      <button
+        onClick={handleLogout}
+        className="w-full text-left px-4 py-2  flex items-center hover:bg-gray-100"
+      >
+        <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 text-red-500" />
+        Logout
+      </button>
+    </div>
           )}
         </div>
       ) : (
