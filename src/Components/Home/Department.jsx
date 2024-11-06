@@ -35,11 +35,19 @@ const Department = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        const firstSixDepartments = data.slice(0, 6).map((dept) => ({
-          title: dept.speciality.title,
-          icon: iconMapping[dept.speciality.icon] || faUserMd,
-        }));
-        setDepartments(firstSixDepartments);
+        // Use a map to filter unique department titles
+        const uniqueDepartments = Array.from(
+          new Map(
+            data.map((dept) => [
+              dept.speciality.title,
+              {
+                title: dept.speciality.title,
+                icon: iconMapping[dept.speciality.icon] || faUserMd,
+              },
+            ])
+          ).values()
+        ).slice(0, 6); // Limit to the first 6 unique departments
+        setDepartments(uniqueDepartments);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
@@ -59,7 +67,7 @@ const Department = () => {
         ensure comprehensive health care services.
       </p>
 
-      <div className="container mx-auto grid grid-cols-1 w-3/4 md:w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+      <div className="container mx-auto grid grid-cols-1 w-3/4 md:w-full sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-6 gap-8">
         {departments.map((department, index) => (
           <div
             key={index}

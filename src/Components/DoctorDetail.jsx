@@ -42,23 +42,28 @@ const DoctorDetail = () => {
     const slots = [];
     const now = dayjs();
     const isToday = selectedDate === now.format("ddd D");
-
-    for (let hour = 11; hour < 19; hour++) {
+  
+    for (let hour = 11; hour < 16; hour++) {
       const fullHour = dayjs().hour(hour).minute(0);
       const halfHour = dayjs().hour(hour).minute(30);
-
-      slots.push({
-        time: fullHour.format("HH:mm"),
-        disabled: isToday && fullHour.isBefore(now),
-      });
-      slots.push({
-        time: halfHour.format("HH:mm"),
-        disabled: isToday && halfHour.isBefore(now),
-      });
+  
+      // Only add time slots if they are in the future for today
+      if (!(isToday && fullHour.isBefore(now))) {
+        slots.push({
+          time: fullHour.format("HH:mm"),
+        });
+      }
+  
+      if (!(isToday && halfHour.isBefore(now))) {
+        slots.push({
+          time: halfHour.format("HH:mm"),
+        });
+      }
     }
-
+  
     setTimeSlots(slots);
   };
+  
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -128,14 +133,14 @@ const DoctorDetail = () => {
         <img
           src={doctor.image}
           alt={doctor.name}
-          className="w-48 h-48 rounded-full mb-4 border-4 border-red-500"
+          className="w-48 h-48 rounded-full mb-4 border-8 border-red-400"
         />
       </div>
       <div className="w-full md:w-2/3 bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold text-gray-800 mb-2">{doctor.name}</h2>
         <p className="text-gray-600 mb-4">
           {doctor.degree} - {doctor.speciality.title} •{" "}
-          <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm">
+          <span className="bg-red-200 text-gray-700 px-2 py-1 rounded-full text-sm">
             {doctor.experience}
           </span>
         </p>
