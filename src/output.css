@@ -1548,6 +1548,14 @@ video {
   line-height: 1.5rem;
 }
 
+.text-\[14px\] {
+  font-size: 14px;
+}
+
+.text-\[16px\] {
+  font-size: 16px;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -1699,6 +1707,14 @@ video {
 
 .text-current {
   color: currentColor;
+}
+
+.text-\[\] {
+  color: ;
+}
+
+.text-\[\"14px\"\] {
+  color: "14px";
 }
 
 .placeholder-gray-500::-moz-placeholder {
@@ -2107,6 +2123,10 @@ video {
   .md\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
+  }
+
+  .md\:text-\[16px\] {
+    font-size: 16px;
   }
 }
 
