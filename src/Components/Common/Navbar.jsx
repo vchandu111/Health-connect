@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faStethoscope } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faSignOutAlt,faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,34 +71,34 @@ const Navbar = () => {
       {/* User Profile Dropdown for Desktop */}
       {userName ? (
         <div className="relative hidden md:block z-10">
-          <button
-            className="flex items-center space-x-2 text-gray-800 focus:outline-none"
-            onClick={() => setUserMenuOpen(!userMenuOpen)}
-          >
-            <FontAwesomeIcon icon={faUser} className="text-2xl text-red-600" />
-            <span className="font-medium uppercase">
-              {userName.split("@")[0]}
-            </span>
-          </button>
-          {userMenuOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
-      <a
-        href="/appointments"
-        className="block px-4 py-2 text-gray-800 hover:bg-gray-100 flex items-center"
-      >
-        <FontAwesomeIcon icon={faCalendarAlt} className="mr-2 text-red-500" />
-        My Appointments
-      </a>
       <button
-        onClick={handleLogout}
-        className="w-full text-left px-4 py-2  flex items-center hover:bg-gray-100"
+        className="flex items-center space-x-2 text-gray-800 focus:outline-none"
+        onClick={() => setUserMenuOpen(!userMenuOpen)}
       >
-        <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 text-red-500" />
-        Logout
+        <FontAwesomeIcon icon={faUser} className="text-2xl text-red-600" />
+        <span className="font-medium uppercase">{userName.split("@")[0]}</span>
+        <FontAwesomeIcon icon={faCaretDown} className="text-gray-500 text-sm" /> {/* Dropdown icon */}
       </button>
-    </div>
-          )}
+      
+      {userMenuOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
+          <a
+            href="/appointments"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-100 flex items-center"
+          >
+            <FontAwesomeIcon icon={faCalendarAlt} className="mr-2 text-red-500" />
+            My Appointments
+          </a>
+          <button
+            onClick={handleLogout}
+            className="w-full text-left px-4 py-2 flex items-center hover:bg-gray-100"
+          >
+            <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 text-red-500" />
+            Logout
+          </button>
         </div>
+      )}
+    </div>
       ) : (
         <button className="hidden md:block border border-red-500 text-red-500 px-4 py-2 rounded-full hover:bg-red-500 hover:text-white transition duration-300">
           <a href="/signup">Signup</a>
