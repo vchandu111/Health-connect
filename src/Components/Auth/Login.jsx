@@ -34,11 +34,9 @@ const Login = () => {
 
       if (response.ok) {
         // Store the token in localStorage
-          localStorage.setItem("token", result.idToken);
-          localStorage.setItem("userEmail", result.email);
-          localStorage.setItem("userID", result.localId);
-
-
+        localStorage.setItem("token", result.idToken);
+        localStorage.setItem("userEmail", result.email);
+        localStorage.setItem("userID", result.localId);
 
         // Show success toast
         toast.success("Login successful! Redirecting to homepage...", {
@@ -54,6 +52,7 @@ const Login = () => {
         // Navigate to the homepage after a delay
         setTimeout(() => {
           navigate("/");
+          window.location.reload();
         }, 2000); // 3 seconds delay for the toast to display
       } else {
         // Handle errors
