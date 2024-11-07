@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import { v4 as uuidv4 } from "uuid"; // Import UUID for unique IDs
+import { v4 as uuidv4 } from "uuid";
 import Loader from "./Common/Loader";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -13,6 +13,7 @@ const DoctorDetail = () => {
   const [selectedTime, setSelectedTime] = useState(null);
   const [dates, setDates] = useState([]);
   const [timeSlots, setTimeSlots] = useState([]);
+  const [noSlotsAvailable, setNoSlotsAvailable] = useState(false);
 
   useEffect(() => {
     const requestOptions = {
@@ -42,28 +43,24 @@ const DoctorDetail = () => {
     const slots = [];
     const now = dayjs();
     const isToday = selectedDate === now.format("ddd D");
-  
+
     for (let hour = 11; hour < 16; hour++) {
       const fullHour = dayjs().hour(hour).minute(0);
       const halfHour = dayjs().hour(hour).minute(30);
-  
+
       // Only add time slots if they are in the future for today
       if (!(isToday && fullHour.isBefore(now))) {
-        slots.push({
-          time: fullHour.format("HH:mm"),
-        });
+        slots.push({ time: fullHour.format("HH:mm") });
       }
-  
+
       if (!(isToday && halfHour.isBefore(now))) {
-        slots.push({
-          time: halfHour.format("HH:mm"),
-        });
+        slots.push({ time: halfHour.format("HH:mm") });
       }
     }
-  
+
     setTimeSlots(slots);
+    setNoSlotsAvailable(slots.length === 0); // Set noSlotsAvailable to true if no slots are available
   };
-  
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -83,18 +80,15 @@ const DoctorDetail = () => {
       });
       navigate("/login");
     } else {
-      const appointmentId = uuidv4(); // Generate a unique ID for the appointment
+      const appointmentId = uuidv4();
 
       const appointmentData = {
         doctorName: doctor.name,
         speciality: doctor.speciality.title,
         address: `${doctor.address.line1}, ${doctor.address.line2}`,
         dateTime: `${selectedDate} | ${selectedTime}`,
-        image: doctor.image, // Add doctor's image URL here
-        user: {
-          email: email,
-          userId: userId,
-        },
+        image: doctor.image,
+        user: { email: email, userId: userId },
       };
 
       const raw = JSON.stringify(appointmentData);
@@ -172,24 +166,27 @@ const DoctorDetail = () => {
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-2 mb-6">
-              {timeSlots.map(({ time, disabled }) => (
-                <button
-                  key={time}
-                  onClick={() => !disabled && setSelectedTime(time)}
-                  disabled={disabled}
-                  className={`px-4 py-2 rounded-lg border ${
-                    selectedTime === time
-                      ? "bg-red-500 text-white"
-                      : disabled
-                      ? "bg-gray-300 text-gray-400 cursor-not-allowed"
-                      : "text-gray-700 border-gray-300"
-                  }`}
-                >
-                  {time}
-                </button>
-              ))}
-            </div>
+            {noSlotsAvailable ? (
+              <p className="text-center text-red-500 mt-6 mb-6">
+                No slots are available today. Please select a different date.
+              </p>
+            ) : (
+              <div className="flex flex-wrap gap-2 mb-6">
+                {timeSlots.map(({ time }) => (
+                  <button
+                    key={time}
+                    onClick={() => setSelectedTime(time)}
+                    className={`px-4 py-2 rounded-lg border ${
+                      selectedTime === time
+                        ? "bg-red-500 text-white"
+                        : "text-gray-700 border-gray-300"
+                    }`}
+                  >
+                    {time}
+                  </button>
+                ))}
+              </div>
+            )}
 
             <button
               className={`px-6 py-3 font-semibold rounded-full transition duration-300 ${
