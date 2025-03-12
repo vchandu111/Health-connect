@@ -30,7 +30,7 @@ const Department = () => {
     };
 
     fetch(
-      "https://healthconnect-5248e-default-rtdb.firebaseio.com/doctors.json",
+      "https://healthconnect-5ad96-default-rtdb.firebaseio.com/doctors.json",
       requestOptions
     )
       .then((response) => response.json())

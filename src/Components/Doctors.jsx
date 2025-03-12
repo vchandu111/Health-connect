@@ -21,7 +21,7 @@ const DoctorsPage = () => {
     };
 
     fetch(
-      "https://healthconnect-5248e-default-rtdb.firebaseio.com/doctors.json",
+      "https://health-connect-fastapi-9qbw.vercel.app/doctors",
       requestOptions
     )
       .then((response) => response.json())

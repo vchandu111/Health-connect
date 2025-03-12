@@ -22,7 +22,7 @@ const DoctorDetail = () => {
     };
 
     fetch(
-      `https://healthconnect-5248e-default-rtdb.firebaseio.com/doctors/${id}.json`,
+      `https://healthconnect-5ad96-default-rtdb.firebaseio.com/doctors/${id}.json`,
       requestOptions
     )
       .then((response) => response.json())

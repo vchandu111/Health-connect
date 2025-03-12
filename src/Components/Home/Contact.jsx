@@ -20,30 +20,25 @@ const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     };
-
-    fetch(
-      "https://healthconnect-5248e-default-rtdb.firebaseio.com/help.json",
-      requestOptions
-    )
-      .then((response) => {
-        if (response.ok) {
-          toast.success(
-            "Thank you for reaching out! We have received your message and will get back to you shortly.",
-            {
-              position: "top-right",
-              autoClose: 3000,
-            }
-          );
-          setFormData({ name: "", email: "", subject: "", message: "" });
-        } else {
-          throw new Error("Failed to send message.");
-        }
+  
+    fetch("https://health-connect-fastapi-9qbw.vercel.app/form", requestOptions)
+      .then((response) => response.text())  // Adjusting this to handle the response as text if that's what the API returns.
+      .then((result) => {
+        console.log(result);
+        toast.success(
+          "Thank you for reaching out! We have received your message and will get back to you shortly.",
+          {
+            position: "top-right",
+            autoClose: 3000,
+          }
+        );
+        setFormData({ name: "", email: "", subject: "", message: "" });
       })
       .catch((error) => {
         console.error("Error sending message:", error);
@@ -53,6 +48,7 @@ const ContactUs = () => {
         });
       });
   };
+  
 
   return (
     <>

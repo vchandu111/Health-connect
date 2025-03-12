@@ -202,5 +202,4 @@ const Appointments = () => {
     </div>
   );
 };
-
 export default Appointments;

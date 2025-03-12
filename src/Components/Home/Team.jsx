@@ -51,10 +51,7 @@ const Team = () => {
       redirect: "follow",
     };
 
-    fetch(
-      "https://healthconnect-5248e-default-rtdb.firebaseio.com/doctors.json",
-      requestOptions
-    )
+    fetch("https://health-connect-fastapi-9qbw.vercel.app/doctors", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setDoctors(data); // Store all doctors data
