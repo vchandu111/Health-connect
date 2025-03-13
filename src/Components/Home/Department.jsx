@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeartPulse,
@@ -29,25 +29,14 @@ const Department = () => {
       redirect: "follow",
     };
 
-    fetch(
-      "https://healthconnect-5ad96-default-rtdb.firebaseio.com/doctors.json",
-      requestOptions
-    )
+    fetch("http://127.0.0.1:8000/doctors/department", requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        // Use a map to filter unique department titles
-        const uniqueDepartments = Array.from(
-          new Map(
-            data.map((dept) => [
-              dept.speciality.title,
-              {
-                title: dept.speciality.title,
-                icon: iconMapping[dept.speciality.icon] || faUserMd,
-              },
-            ])
-          ).values()
-        ).slice(0, 6); // Limit to the first 6 unique departments
-        setDepartments(uniqueDepartments);
+        const departmentsWithIcons = data.departments.map((dept) => ({
+          title: dept.title,
+          icon: iconMapping[dept.icon] || faUserMd,
+        }));
+        setDepartments(departmentsWithIcons);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
@@ -68,7 +57,7 @@ const Department = () => {
       </p>
 
       <div className="container mx-auto grid grid-cols-1 w-3/4 md:w-full sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-6 gap-8">
-        {departments.map((department, index) => (
+        {departments.slice(0, 6).map((department, index) => (
           <div
             key={index}
             onClick={() => handleDepartmentClick(department.title)}

@@ -51,7 +51,7 @@ const Team = () => {
       redirect: "follow",
     };
 
-    fetch("https://health-connect-fastapi-9qbw.vercel.app/doctors", requestOptions)
+    fetch("http://127.0.0.1:8000/doctors", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setDoctors(data); // Store all doctors data
