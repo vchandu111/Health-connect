@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Loader from "./Common/Loader";
 
 const DoctorsPage = () => {
-  const { department: initialDepartment } = useParams(); // Read department from URL params
+  const { department: initialDepartment } = useParams();
   const navigate = useNavigate();
 
   const [doctors, setDoctors] = useState([]);
@@ -12,66 +12,83 @@ const DoctorsPage = () => {
   const [selectedDepartment, setSelectedDepartment] = useState(
     initialDepartment || "All"
   );
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
 
+  // Fetch all doctors initially
   useEffect(() => {
-    const requestOptions = {
-      method: "GET",
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://health-connect-fastapi-9qbw.vercel.app/doctors",
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchDoctors = async () => {
+      try {
+        const response = await fetch(
+          "https://backend-health-connect.vercel.app/doctors"
+        );
+        const data = await response.json();
         setDoctors(data);
-        setLoading(false); // Set loading to false when data is loaded
 
-        // Set default filtered doctors based on initialDepartment from URL, if provided
+        // Set filtered doctors based on initial department
         if (initialDepartment && initialDepartment !== "All") {
-          const filtered = data.filter(
-            (doctor) => doctor.speciality.title === initialDepartment
+          const deptResponse = await fetch(
+            `https://backend-health-connect.vercel.app/doctors/department/${initialDepartment.toLowerCase()}`
           );
-          setFilteredDoctors(filtered);
+          const deptData = await deptResponse.json();
+          setFilteredDoctors(deptData);
         } else {
           setFilteredDoctors(data);
         }
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      }
+    };
 
-        // Extract unique departments
-        const uniqueDepartments = Array.from(
-          new Set(data.map((doc) => doc.speciality.title))
+    // Fetch departments
+    const fetchDepartments = async () => {
+      try {
+        const response = await fetch(
+          "https://backend-health-connect.vercel.app/doctors/department"
         );
-        setDepartments(["All", ...uniqueDepartments]);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false); // Hide loader on error as well
-      });
+        const data = await response.json();
+        setDepartments(["All", ...data.departments.map((dept) => dept.title)]);
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+      }
+    };
+
+    Promise.all([fetchDoctors(), fetchDepartments()]).finally(() =>
+      setLoading(false)
+    );
   }, [initialDepartment]);
 
-  const handleDepartmentClick = (department) => {
+  const handleDepartmentClick = async (department) => {
     setSelectedDepartment(department);
-    if (department === "All") {
-      setFilteredDoctors(doctors);
-    } else {
-      const filtered = doctors.filter(
-        (doctor) => doctor.speciality.title === department
-      );
-      setFilteredDoctors(filtered);
+    setLoading(true);
+
+    try {
+      if (department === "All") {
+        const response = await fetch(
+          "https://backend-health-connect.vercel.app/doctors"
+        );
+        const data = await response.json();
+        setFilteredDoctors(data);
+      } else {
+        const response = await fetch(
+          `https://backend-health-connect.vercel.app/doctors/department/${department.toLowerCase()}`
+        );
+        const data = await response.json();
+        setFilteredDoctors(data);
+      }
+    } catch (error) {
+      console.error("Error filtering doctors:", error);
+    } finally {
+      setLoading(false);
     }
-    // Update the URL with the selected department
+
     navigate(`/doctors/${department}`);
   };
 
   const handleDoctorClick = (doctorId) => {
-    // Navigate to the individual doctor detail page
-    doctorId = doctorId - 1;
+    // doctorId = doctorId - 1;
     navigate(`/appointment/${doctorId}`);
   };
 
-  // Function to generate heading text
   const getHeadingText = () => {
     if (selectedDepartment === "All") {
       return "Browse through the doctors specialist.";
@@ -89,7 +106,6 @@ const DoctorsPage = () => {
 
   return (
     <div className="container mx-auto py-12 px-6 mt-16">
-      {/* Show loader if loading */}
       {loading ? (
         <Loader visible={loading} />
       ) : (
@@ -139,7 +155,7 @@ const DoctorsPage = () => {
                 <div
                   key={doctor.id}
                   className="bg-white p-6 rounded-lg shadow-md flex h-min flex-col items-center text-center cursor-pointer"
-                  onClick={() => handleDoctorClick(doctor.id)} // Navigate on click
+                  onClick={() => handleDoctorClick(doctor.id)}
                 >
                   <img
                     src={doctor.image}
@@ -153,7 +169,7 @@ const DoctorsPage = () => {
                           className={`w-2 h-2 rounded-full animate-pulse ${
                             doctor.available ? "bg-green-500" : "bg-red-500"
                           }`}
-                          style={{ minWidth: "6px", minHeight: "6px" }} // Adjust bullet size here
+                          style={{ minWidth: "6px", minHeight: "6px" }}
                         ></span>
                         <span
                           className={`${

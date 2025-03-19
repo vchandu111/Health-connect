@@ -8,17 +8,18 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [userName, setUserName] = useState("");
+  const token = localStorage.getItem("token")
 
   useEffect(() => {
-    const storedUserEmail = localStorage.getItem("userEmail");
-    if (storedUserEmail) {
-      setUserName(storedUserEmail);
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUserName(storedUsername);
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("userEmail");
+    localStorage.removeItem("username");
     window.location.href = "/login";
   };
 
@@ -76,7 +77,7 @@ const Navbar = () => {
         onClick={() => setUserMenuOpen(!userMenuOpen)}
       >
         <FontAwesomeIcon icon={faUser} className="text-2xl text-red-600" />
-        <span className="font-medium uppercase">{userName.split("@")[0]}</span>
+        <span className="font-medium uppercase">{userName}</span>
         <FontAwesomeIcon icon={faCaretDown} className="text-gray-500 text-sm" /> {/* Dropdown icon */}
       </button>
       

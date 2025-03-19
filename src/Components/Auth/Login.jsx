@@ -1,42 +1,43 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const apiKey = "AIzaSyAl3XZsqfq5H0w03B_wzGb0WBmG5Mln56I";
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    const formData = new URLSearchParams();
+    formData.append("grant_type", "password");
+    formData.append("username", username);
+    formData.append("password", password);
+
     const requestOptions = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        returnSecureToken: true,
-      }),
+      body: formData,
     };
 
     try {
       const response = await fetch(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
+        "https://backend-health-connect.vercel.app/auth/login",
         requestOptions
       );
 
       const result = await response.json();
+      console.log(result);
 
       if (response.ok) {
         // Store the token in localStorage
-        localStorage.setItem("token", result.idToken);
-        localStorage.setItem("userEmail", result.email);
-        localStorage.setItem("userID", result.localId);
+        localStorage.setItem("token", result.access_token);
+        localStorage.setItem("token_type", result.token_type);
+        localStorage.setItem("username", result.username);
 
         // Show success toast
         toast.success("Login successful! Redirecting to homepage...", {
@@ -53,11 +54,11 @@ const Login = () => {
         setTimeout(() => {
           navigate("/");
           window.location.reload();
-        }, 2000); // 3 seconds delay for the toast to display
+        }, 2000);
       } else {
         // Handle errors
-        console.error(result.error.message);
-        toast.error("Error: " + result.error.message, {
+        console.error(result.detail);
+        toast.error("Error: " + result.detail, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -102,10 +103,10 @@ const Login = () => {
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
               />
             </div>
@@ -126,7 +127,7 @@ const Login = () => {
             </button>
           </form>
           <p className="mt-4 text-gray-600">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <a href="/signup" className="text-red-500 hover:underline">
               Sign up
             </a>

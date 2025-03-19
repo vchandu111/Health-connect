@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [otp, setOtp] = useState("");
   const navigate = useNavigate();
-  const apiKey = "AIzaSyAl3XZsqfq5H0w03B_wzGb0WBmG5Mln56I";
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -18,26 +21,24 @@ const Signup = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: email,
-        password: password,
-        returnSecureToken: true,
+        name,
+        username,
+        email,
+        password,
       }),
     };
 
     try {
       const response = await fetch(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,
+        "https://backend-health-connect.vercel.app/auth/signup",
         requestOptions
       );
 
-      const result = await response.json();
+      const result = await response.text();
 
       if (response.ok) {
-        // Store the token in localStorage
-        localStorage.setItem("token", result.idToken);
-
-        // Show success toast
-        toast.success("Signup successful! Redirecting to login...", {
+        setShowOtpModal(true);
+        toast.success("Please enter the OTP sent to your email", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -46,15 +47,9 @@ const Signup = () => {
           draggable: true,
           progress: undefined,
         });
-
-        // Navigate to login after a delay
-        setTimeout(() => {
-          navigate("/login");
-        }, 3000); // 3 seconds delay to allow the toast to display
       } else {
-        // Handle errors
-        console.error(result.error.message);
-        toast.error("Error: " + result.error.message, {
+        console.error(result);
+        toast.error("Error: " + result, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -67,6 +62,66 @@ const Signup = () => {
     } catch (error) {
       console.error("Signup error", error);
       toast.error("Signup failed. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        verification_code: otp,
+      }),
+    };
+
+    try {
+      const response = await fetch(
+        "https://backend-health-connect.vercel.app/auth/verify-email",
+        requestOptions
+      );
+
+      if (response.ok) {
+        toast.success("Email verified successfully! Redirecting to login...", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      } else {
+        const result = await response.text();
+        toast.error("Error: " + result, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } catch (error) {
+      console.error("OTP verification error", error);
+      toast.error("Verification failed. Please try again.", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -96,32 +151,70 @@ const Signup = () => {
         {/* Right Side - Form */}
         <div className="w-full md:w-1/2 p-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Sign Up</h2>
-          <form onSubmit={handleSignup} className="space-y-4">
-            <div>
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
-              />
-            </div>
-            <div>
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full py-4 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 transition duration-300"
-            >
-              Sign Up
-            </button>
-          </form>
+          {!showOtpModal ? (
+            <form onSubmit={handleSignup} className="space-y-4">
+              <div>
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+                />
+              </div>
+              <div>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+                />
+              </div>
+              <div>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full py-4 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 transition duration-300"
+              >
+                Sign Up
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleVerifyOtp} className="space-y-4">
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full py-4 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 transition duration-300"
+              >
+                Verify OTP
+              </button>
+            </form>
+          )}
           <p className="mt-4 text-gray-600">
             Already have an account?{" "}
             <a href="/login" className="text-red-500 hover:underline">

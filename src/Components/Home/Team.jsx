@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // for navigation
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,13 +9,14 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 const DoctorCard = ({ doctor }) => {
+  console.log(doctor);
   return (
     <div className="flex flex-col items-center text-center">
       {/* Doctor Image */}
       <div className="relative w-48 h-48 mb-4">
         <img
-          src={doctor.image}
-          alt={doctor.name}
+          src={doctor?.image}
+          alt={doctor?.name}
           className="w-full h-full object-cover rounded-full border-4 border-white shadow-lg"
         />
       </div>
@@ -51,7 +52,7 @@ const Team = () => {
       redirect: "follow",
     };
 
-    fetch("http://127.0.0.1:8000/doctors", requestOptions)
+    fetch("https://backend-health-connect.vercel.app/doctors", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setDoctors(data); // Store all doctors data

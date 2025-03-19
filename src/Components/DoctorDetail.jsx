@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { v4 as uuidv4 } from "uuid";
 import Loader from "./Common/Loader";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DoctorDetail = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const DoctorDetail = () => {
     };
 
     fetch(
-      `https://healthconnect-5ad96-default-rtdb.firebaseio.com/doctors/${id}.json`,
+      `https://backend-health-connect.vercel.app/doctors/${id}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -70,8 +71,6 @@ const DoctorDetail = () => {
 
   const handleBooking = () => {
     const token = localStorage.getItem("token");
-    const email = localStorage.getItem("email");
-    const userId = localStorage.getItem("userID");
 
     if (!token) {
       toast.error("Please login to make an appointment", {
@@ -83,37 +82,37 @@ const DoctorDetail = () => {
       const appointmentId = uuidv4();
 
       const appointmentData = {
-        doctorName: doctor.name,
-        speciality: doctor.speciality.title,
-        address: `${doctor.address.line1}, ${doctor.address.line2}`,
-        dateTime: `${selectedDate} | ${selectedTime}`,
-        image: doctor.image,
-        user: { email: email, userId: userId },
+        doctor_id: Number(id),
+        date_time: `${selectedDate} | ${selectedTime}`,
       };
 
       const raw = JSON.stringify(appointmentData);
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", `Bearer ${token}`); // Adding the Authorization header
 
       const requestOptions = {
-        method: "PUT",
+        method: "POST",
         headers: myHeaders,
         body: raw,
         redirect: "follow",
       };
 
       fetch(
-        `https://healthconnect-5248e-default-rtdb.firebaseio.com/appointments/${userId}/${appointmentId}.json`,
+        `https://backend-health-connect.vercel.app/appointments`,
         requestOptions
       )
         .then((response) => response.json())
         .then((result) => {
+          console.log(result);
           toast.success("Appointment successfully booked!", {
             position: "top-right",
             autoClose: 3000,
           });
-          navigate("/appointments");
+          setTimeout(() => {
+            navigate("/appointments");
+          }, 2000);
         })
         .catch((error) => console.error("Error booking appointment:", error));
     }
@@ -123,6 +122,8 @@ const DoctorDetail = () => {
 
   return (
     <div className="container mx-auto py-12 px-6 flex flex-col md:flex-row gap-6 mt-16">
+      <ToastContainer />
+
       <div className="w-full md:w-1/3 flex justify-center">
         <img
           src={doctor.image}

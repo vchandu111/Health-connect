@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeartPulse,
@@ -29,7 +29,10 @@ const Department = () => {
       redirect: "follow",
     };
 
-    fetch("http://127.0.0.1:8000/doctors/department", requestOptions)
+    fetch(
+      "https://backend-health-connect.vercel.app/doctors/department",
+      requestOptions
+    )
       .then((response) => response.json())
       .then((data) => {
         const departmentsWithIcons = data.departments.map((dept) => ({
