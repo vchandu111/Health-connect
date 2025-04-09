@@ -4,11 +4,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "./Common/Loader";
 
 const DoctorDetails = () => {
   const { id } = useParams();
   const [doctor, setDoctor] = useState(null);
-  console.log(id);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [selectedDateTime, setSelectedDateTime] = useState(null);
 
@@ -17,15 +18,16 @@ const DoctorDetails = () => {
       method: "GET",
       redirect: "follow",
     };
+    setLoading(true);
     fetch(
       `https://backend-health-connect.vercel.app/doctors/${id}`,
       requestOptions
     )
       .then((response) => response.json())
       .then((data) => setDoctor(data))
-      .catch((error) => console.error("Error fetching doctor data:", error));
+      .catch((error) => console.error("Error fetching doctor data:", error))
+      .finally(() => setLoading(false));
   }, [id]);
-  console.log(doctor);
 
   const handleDateTimeChange = (date) => {
     setSelectedDateTime(date);
@@ -66,6 +68,7 @@ const DoctorDetails = () => {
       "https://backend-health-connect.vercel.app/appointments/"
     );
 
+    setLoading(true);
     fetch("https://backend-health-connect.vercel.app/appointments/", {
       method: "POST",
       headers: {
@@ -106,8 +109,13 @@ const DoctorDetails = () => {
             autoClose: 3000,
           }
         );
-      });
+      })
+      .finally(() => setLoading(false));
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   if (!doctor) return <div>...loading</div>;
   return (
@@ -162,9 +170,9 @@ const DoctorDetails = () => {
                 : "bg-gray-300 text-gray-600 cursor-not-allowed"
             }`}
             onClick={handleBooking}
-            disabled={!selectedDateTime}
+            disabled={!selectedDateTime || loading}
           >
-            Book an appointment
+            {loading ? "Booking..." : "Book an appointment"}
           </button>
         </div>
       </div>
