@@ -55,12 +55,12 @@ const Navbar = () => {
         >
           Doctors
         </a>
-        <a
+        {/* <a
           href="/news"
           className="text-gray-800 font-medium hover:text-red-500"
         >
           NEWS
-        </a>
+        </a> */}
         <a
           href="/contact"
           className="text-gray-800 font-medium hover:text-red-500"
@@ -157,12 +157,12 @@ const Navbar = () => {
         >
           Doctors
         </a>
-        <a
+        {/* <a
           href="/news"
           className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100"
         >
           NEWS
-        </a>
+        </a> */}
         <a
           href="/contact"
           className="block px-4 py-2 text-gray-800 font-medium hover:bg-gray-100"

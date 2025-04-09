@@ -13,33 +13,119 @@ import Contact from "./Components/Home/Contact";
 import Appointments from "./Components/Appointments";
 import News from "./Components/News";
 import AboutUs from "./Components/AboutUs";
+
+// Layout component for pages with navbar and footer
+const MainLayout = ({ children }) => {
+  return (
+    <>
+      <Navbar />
+      {children}
+      <Footer />
+    </>
+  );
+};
+
+// Layout component for auth pages (login/signup)
+const AuthLayout = ({ children }) => {
+  return <>{children}</>;
+};
+
 function App() {
   return (
     <Router>
-      <div>
-        <Navbar />
+      <Routes>
+        {/* Auth routes without navbar and footer */}
+        <Route
+          path="/login"
+          element={
+            <AuthLayout>
+              <Login />
+            </AuthLayout>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <AuthLayout>
+              <Signup />
+            </AuthLayout>
+          }
+        />
 
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/specializations" element={<AllDepartments />} />
-          {/* Add a dynamic route for DoctorsPage */}
-          <Route path="/doctors" element={<DoctorsPage />} />
-          <Route path="/doctors/:department" element={<DoctorsPage />} />{" "}
-          <Route path="/appointment/:id" element={<DoctorDetail />} />{" "}
-          {/* Individual doctor page */}
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/appointments" element={<Appointments />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/about" element={<AboutUs/>} />
-
-
-          {/* New dynamic route */}
-        </Routes>
-
-        <Footer />
-      </div>
+        {/* Main routes with navbar and footer */}
+        <Route
+          path="/"
+          element={
+            <MainLayout>
+              <LandingPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/specializations"
+          element={
+            <MainLayout>
+              <AllDepartments />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/doctors"
+          element={
+            <MainLayout>
+              <DoctorsPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/doctors/:department"
+          element={
+            <MainLayout>
+              <DoctorsPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/appointment/:id"
+          element={
+            <MainLayout>
+              <DoctorDetail />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <MainLayout>
+              <Contact />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/appointments"
+          element={
+            <MainLayout>
+              <Appointments />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/news"
+          element={
+            <MainLayout>
+              <News />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <MainLayout>
+              <AboutUs />
+            </MainLayout>
+          }
+        />
+      </Routes>
     </Router>
   );
 }

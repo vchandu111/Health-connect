@@ -1,19 +1,22 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import doc from "../../assets/doc.png";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showOtpForm, setShowOtpForm] = useState(false);
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const requestOptions = {
       method: "POST",
@@ -37,8 +40,9 @@ const Signup = () => {
       const result = await response.text();
 
       if (response.ok) {
-        setShowOtpModal(true);
-        toast.success("Please enter the OTP sent to your email", {
+        console.log("Signup successful:", result);
+        setShowOtpForm(true);
+        toast.success("Please enter the verification code sent to your email", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -48,7 +52,7 @@ const Signup = () => {
           progress: undefined,
         });
       } else {
-        console.error(result);
+        console.error("Signup failed:", result);
         toast.error("Error: " + result, {
           position: "top-right",
           autoClose: 5000,
@@ -60,7 +64,7 @@ const Signup = () => {
         });
       }
     } catch (error) {
-      console.error("Signup error", error);
+      console.error("Signup error:", error);
       toast.error("Signup failed. Please try again.", {
         position: "top-right",
         autoClose: 5000,
@@ -70,11 +74,14 @@ const Signup = () => {
         draggable: true,
         progress: undefined,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const requestOptions = {
       method: "POST",
@@ -94,6 +101,7 @@ const Signup = () => {
       );
 
       if (response.ok) {
+        console.log("Email verified successfully!");
         toast.success("Email verified successfully! Redirecting to login...", {
           position: "top-right",
           autoClose: 3000,
@@ -109,6 +117,7 @@ const Signup = () => {
         }, 3000);
       } else {
         const result = await response.text();
+        console.error("Verification failed:", result);
         toast.error("Error: " + result, {
           position: "top-right",
           autoClose: 5000,
@@ -120,7 +129,7 @@ const Signup = () => {
         });
       }
     } catch (error) {
-      console.error("OTP verification error", error);
+      console.error("Verification error:", error);
       toast.error("Verification failed. Please try again.", {
         position: "top-right",
         autoClose: 5000,
@@ -130,94 +139,128 @@ const Signup = () => {
         draggable: true,
         progress: undefined,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="flex max-w-4xl shadow-lg rounded-lg overflow-hidden bg-white">
-        {/* Toast Container */}
-        <ToastContainer />
+    <div className="flex min-h-screen">
+      {/* Toast Container */}
+      <ToastContainer />
 
-        {/* Left Side Image */}
-        <div className="hidden md:flex md:w-1/2 items-center justify-center">
-          <img
-            src="https://images.unsplash.com/photo-1676364424409-e87919caffe1?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="Shopping Illustration"
-            className="w-full h-full object-cover"
-          />
-        </div>
+      {/* Left Side - Image */}
+      <div className="hidden md:block md:w-1/2 h-screen">
+        <img
+          src={doc}
+          alt="Healthcare Professional"
+          className="w-full h-full object-fit"
+        />
+      </div>
 
-        {/* Right Side - Form */}
-        <div className="w-full md:w-1/2 p-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">Sign Up</h2>
-          {!showOtpModal ? (
-            <form onSubmit={handleSignup} className="space-y-4">
-              <div>
+      {/* Right Side - Form */}
+      <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-12 bg-white">
+        <div className="w-full max-w-lg text-center bg-white p-8 rounded-lg shadow-xl">
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">
+              Welcome to HealthConnect
+            </h1>
+            <p className="text-gray-600">
+              {showOtpForm
+                ? "Please enter the verification code sent to your email"
+                : "Create your account and start your healthcare journey"}
+            </p>
+          </div>
+
+          {!showOtpForm ? (
+            <form onSubmit={handleSignup} className="space-y-4 shadow-lg p-10">
+              <div className="space-y-4">
                 <input
                   type="text"
+                  name="name"
                   placeholder="Full Name"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    console.log("Updated name:", e.target.value);
+                  }}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-red-500 placeholder-gray-500 transition-colors"
                 />
-              </div>
-              <div>
                 <input
                   type="text"
+                  name="username"
                   placeholder="Username"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    console.log("Updated username:", e.target.value);
+                  }}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-red-500 placeholder-gray-500 transition-colors"
                 />
-              </div>
-              <div>
                 <input
                   type="email"
+                  name="email"
                   placeholder="Email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    console.log("Updated email:", e.target.value);
+                  }}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-red-500 placeholder-gray-500 transition-colors"
                 />
-              </div>
-              <div>
                 <input
                   type="password"
+                  name="password"
                   placeholder="Password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    console.log("Updated password:", e.target.value);
+                  }}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-red-500 placeholder-gray-500 transition-colors"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full py-4 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 transition duration-300"
+                disabled={loading}
+                className="w-full py-3 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition duration-300 shadow-md hover:shadow-lg disabled:opacity-50"
               >
-                Sign Up
+                {loading ? "Signing up..." : "Sign Up"}
               </button>
             </form>
           ) : (
-            <form onSubmit={handleVerifyOtp} className="space-y-4">
+            <form
+              onSubmit={handleVerifyOtp}
+              className="space-y-4 shadow-lg p-10"
+            >
               <div>
                 <input
                   type="text"
                   placeholder="Enter OTP"
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  className="w-full px-4 py-4 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+                  onChange={(e) => {
+                    setOtp(e.target.value);
+                    console.log("Updated OTP:", e.target.value);
+                  }}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-red-500 placeholder-gray-500 transition-colors"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full py-4 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 transition duration-300"
+                disabled={loading}
+                className="w-full py-3 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition duration-300 shadow-md hover:shadow-lg disabled:opacity-50"
               >
-                Verify OTP
+                {loading ? "Verifying..." : "Verify OTP"}
               </button>
             </form>
           )}
-          <p className="mt-4 text-gray-600">
+
+          <p className="mt-6 text-gray-600 text-center">
             Already have an account?{" "}
-            <a href="/login" className="text-red-500 hover:underline">
+            <a
+              href="/login"
+              className="text-red-500 hover:underline font-medium transition-colors"
+            >
               Log In
             </a>
           </p>

@@ -3,32 +3,32 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ContactUs = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
+    const formData = {
+      name,
+      email,
+      subject,
+      message,
+    };
+
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     };
-  
-    fetch("https://health-connect-fastapi-9qbw.vercel.app/form", requestOptions)
-      .then((response) => response.text())  // Adjusting this to handle the response as text if that's what the API returns.
+
+    fetch(
+      "https://backend-health-connect.vercel.app/contact/get_in_touch",
+      requestOptions
+    )
+      .then((response) => response.json())
       .then((result) => {
         console.log(result);
         toast.success(
@@ -38,17 +38,20 @@ const ContactUs = () => {
             autoClose: 3000,
           }
         );
-        setFormData({ name: "", email: "", subject: "", message: "" });
+        // Reset all form fields
+        setName("");
+        setEmail("");
+        setSubject("");
+        setMessage("");
       })
       .catch((error) => {
         console.error("Error sending message:", error);
-        toast.error("Failed to send message.", {
+        toast.error("Failed to send message. Please try again later.", {
           position: "top-right",
           autoClose: 3000,
         });
       });
   };
-  
 
   return (
     <>
@@ -62,46 +65,45 @@ const ContactUs = () => {
         </p>
       </div>
 
-      <div className="flex flex-col w-3/4 md:flex-row items-center justify-center py-8 pb-12 m-auto">
-        <div className="w-full md:w-1/2 h-96 md:h-auto overflow-hidden rounded-lg relative">
+      <div className="flex flex-col md:flex-row min-h-[600px]">
+        <div className="w-full md:w-1/2 h-[400px] md:h-full">
           <img
             src="https://cdn.shulex-voc.com/shulex/upload/2024-06-28/1eb69cab-1135-4e1b-9e02-38204c7aeec9.jpg"
             alt="Map Image"
-            className="object-cover w-full h-full"
+            className="w-full h-full object-cover"
           />
         </div>
 
-        <div className="w-full md:w-1/2 md:ml-6 mt-8 md:mt-0 flex flex-col justify-center">
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 max-w-md mx-auto w-full"
+          >
             <input
               type="text"
-              name="name"
               placeholder="Your Name"
-              value={formData.name}
-              onChange={handleChange}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-red-500 placeholder-gray-500"
             />
             <input
               type="email"
-              name="email"
               placeholder="Your Email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-red-500 placeholder-gray-500"
             />
             <input
               type="text"
-              name="subject"
               placeholder="Subject"
-              value={formData.subject}
-              onChange={handleChange}
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-red-500 placeholder-gray-500"
             />
             <textarea
-              name="message"
               placeholder="Message"
-              value={formData.message}
-              onChange={handleChange}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-red-500 h-32 resize-none placeholder-gray-500"
             ></textarea>
             <button
