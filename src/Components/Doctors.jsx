@@ -137,14 +137,14 @@ const DoctorsPage = () => {
                         : department.title
                     )
                   }
-                  className={`flex cursor-pointer items-center gap-3 p-3 rounded-lg  hover:bg-gray-100 transition-colors ${
+                  className={`flex cursor-pointer items-center gap-3 p-3 rounded-lg transition-colors ${
                     selectedDepartment ===
                     (typeof department === "string"
                       ? department
                       : department.title)
-                      ? "bg-red-50 text-red-600"
+                      ? "bg-red-500 text-white"
                       : "bg-gray-50 hover:bg-gray-100"
-                  }}`}
+                  }`}
                 >
                   {typeof department === "string" ? (
                     <span className="text-gray-700">{department}</span>
@@ -152,9 +152,21 @@ const DoctorsPage = () => {
                     <>
                       <FontAwesomeIcon
                         icon={iconMapping[department.icon]}
-                        className="text-lg text-gray-600 mr-2"
+                        className={`text-lg mr-2 ${
+                          selectedDepartment === department.title
+                            ? "text-white"
+                            : "text-black-600"
+                        }`}
                       />
-                      <span className="text-gray-700">{department.title}</span>
+                      <span
+                        className={
+                          selectedDepartment === department.title
+                            ? "text-white"
+                            : "text-gray-700"
+                        }
+                      >
+                        {department.title}
+                      </span>
                     </>
                   )}
                 </div>

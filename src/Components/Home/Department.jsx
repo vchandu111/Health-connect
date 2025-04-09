@@ -50,7 +50,6 @@ const Department = () => {
 
   return (
     <div className="py-12 bg-gray-50 text-center">
-      <h4 className="text-gray-500 uppercase text-sm mb-2">Why Choose Us?</h4>
       <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
         Health connect popular Departments
       </h2>

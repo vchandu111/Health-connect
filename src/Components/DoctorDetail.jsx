@@ -143,38 +143,52 @@ const DoctorDetails = () => {
           <span className="text-green-600">${doctor.fees}</span>
         </h4>
 
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Select Date & Time
-          </h3>
-          <div className="mb-6">
-            <DatePicker
-              selected={selectedDateTime}
-              onChange={handleDateTimeChange}
-              showTimeSelect
-              timeIntervals={30}
-              minDate={new Date()}
-              maxDate={new Date(new Date().setDate(new Date().getDate() + 7))}
-              dateFormat="MMMM d, yyyy h:mm aa"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-              placeholderText="Select date and time"
-            />
-          </div>
-        </div>
+        {doctor.available ? (
+          <>
+            <div className="mt-8">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                Select Date & Time
+              </h3>
+              <div className="mb-6">
+                <DatePicker
+                  selected={selectedDateTime}
+                  onChange={handleDateTimeChange}
+                  showTimeSelect
+                  timeIntervals={30}
+                  minDate={new Date()}
+                  maxDate={
+                    new Date(new Date().setDate(new Date().getDate() + 7))
+                  }
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                  placeholderText="Select date and time"
+                />
+              </div>
+            </div>
 
-        <div className="mt-8">
-          <button
-            className={`px-6 py-3 font-semibold rounded-full transition duration-300 ${
-              selectedDateTime
-                ? "bg-red-500 text-white hover:bg-red-600"
-                : "bg-gray-300 text-gray-600 cursor-not-allowed"
-            }`}
-            onClick={handleBooking}
-            disabled={!selectedDateTime || loading}
-          >
-            {loading ? "Booking..." : "Book an appointment"}
-          </button>
-        </div>
+            <div className="mt-8">
+              <button
+                className={`px-6 py-3 font-semibold rounded-full transition duration-300 ${
+                  selectedDateTime
+                    ? "bg-red-500 text-white hover:bg-red-600"
+                    : "bg-gray-300 text-gray-600 cursor-not-allowed"
+                }`}
+                onClick={handleBooking}
+                disabled={!selectedDateTime || loading}
+              >
+                {loading ? "Booking..." : "Book an appointment"}
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="mt-8">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <p className="text-red-600 font-medium">
+                This doctor is currently unavailable for appointments.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

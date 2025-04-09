@@ -17,7 +17,7 @@ const LandingPage = () => {
       <About />
       <Department />
       <Offer />
-      <Facts />
+      {/* <Facts /> */}
       <Team />
       <ContactUs />
     </>
